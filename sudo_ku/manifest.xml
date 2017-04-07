@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns="http://www.we7.cc" versionCode="0.52,0.6,0.7">
 	<application setting="true">
-		<name><![CDATA[幸运九宫格]]></name>
+		<name><![CDATA[九宫格]]></name>
 		<identifie><![CDATA[sudo_ku]]></identifie>
 		<version><![CDATA[2.1]]></version>
 		<type><![CDATA[activity ]]></type>
-		<ability><![CDATA[幸运九宫格！]]></ability>
-		<description><![CDATA[幸运九宫格！]]></description>
+		<ability><![CDATA[九宫格！]]></ability>
+		<description><![CDATA[九宫格！]]></description>
 		<author><![CDATA[Rany_yilian]]></author>
 		<url><![CDATA[http://www.hzweixin.com]]></url>
 	</application>
