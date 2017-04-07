@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>提示信息</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<style>
+html,body,div,p,img,ul,li,input,botton{ margin:0; padding:0; font-size:12px; font-family:microsoft yahei, Arial, Helvetica, sans-serif;}
+input,textarea{ outline:0; text-decoration:none;}
+a,button,input{-webkit-tap-highlight-color:rgba(0,0,255,0);}
+.center{ width:100%; padding-top:20%;}
+.center p{ text-align:center; line-height:2rem; font-size:14px;}
+.center p.gameover{ line-height:2rem; font-size:24px; font-weight:600; color:#444; padding-bottom:1rem;}
+.center p img{ max-width:60%;}
+.center p .button{ width:200px; height:4rem; line-height:4rem; background:#38D0CD; border:1px solid #23C3C0; border-radius:0.5rem; margin-top:2rem; font-size:14px; color:#fff;}
+.center p .button:hover{ backgruond:#23C3C0;}
+</style>
+</head>
+
+<body>
+<div class="center">
+ <p class="gameover">{$tips}</p>
+ <p><img src="{$_W['account']['qrcode']}" /></p>
+ <p>扫描二维码关注{$_W['account']['name']}公众号<br />参与更多活动~</p>
+ <p><input class="button" type="submit" value="确定"  /></p>
+</div>
+</body>
+</html>
+ 

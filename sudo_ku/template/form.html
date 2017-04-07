@@ -1,0 +1,660 @@
+<style type="text/css">
+.right_nav{list-style:none;margin:0;padding:0;width:50px;position:fixed;top:173px;right:27px; z-index:10; background:#f0f0f0; border: 1px solid #ccc;
+  -webkit-border-radius: 6px;-moz-border-radius: 6px;border-radius: 6px;
+  -webkit-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);-moz-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.2);}
+.right_nav li{border-bottom:1px solid #d3d3d3;height:50px;line-height:50px;text-align:center; cursor:pointer}
+.right_nav li a{display:block; height:50px;font-size:12px;}
+.right_nav li a:hover{background:#f9f9f9; text-decoration:none}
+.right_nav li:last-child{border-right:none}
+/*.right_nav li a.cur{background:#f9f9f9;color:#f60}*/
+</style>
+<ul class="right_nav">
+   	<li><a href="javascript:scroll(0,0)">顶部</a></li>
+	<li><a class="nav_ra" href="#nav_ra">开始</a></li>
+	<li><a class="nav_rc" href="#nav_rc">详细</a></li>
+	<li><a class="nav_rd" href="#nav_rd">次数</a></li>
+	<li><a class="nav_rf" href="#nav_rf">奖品</a></li>
+	<li><a class="nav_rh" href="#nav_rh">分享</a></li>
+	<li><a class="nav_r1" href="#nav_r1">底部</a></li>
+</ul>
+<input type="hidden" name="jid" value="{$reply['id']}" />
+
+
+<div class="panel panel-default" id="nav_ra">
+    <div class="panel-heading">
+        活动开始设置
+    </div>
+    <div class="panel-body">        
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 活动名称</label>
+            <div class="col-sm-9 col-xs-12">
+               	<input type="text" id="title" class="form-control" placeholder="" name="title" value="{$reply['title']}">
+            </div>
+        </div>
+ 		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 活动图片</label>
+            <div class="col-sm-9 col-xs-12">
+               	{php echo tpl_form_field_image('start_picurl',$reply['start_picurl']);}
+				<div class="help-block">图片大小建议900 * 500</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 活动说明</label>
+            <div class="col-sm-9 col-xs-12">
+               	<textarea style="height:60px;" id='description' name="description" class="form-control" cols="60">{$reply['description']}</textarea>
+            </div>
+        </div>
+		
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 活动时间</label>
+            <div class="col-sm-9 col-xs-12">
+               {php echo tpl_form_field_daterange('datelimit', array('start'=>date('Y-m-d H:i',$reply['starttime']),'end'=>date('Y-m-d H:i',$reply['endtime'])), true)}
+			   
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">版权信息</label>
+            <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="copyright" class="form-control" placeholder="" name="copyright" value="{$reply['copyright']}">
+					<div class="help-block">版权信息，如果不填写，默认为公众号名称！</div>
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动规则</label>
+            <div class="col-sm-9 col-xs-12">
+                    {php echo tpl_ueditor('rule',$reply['rule']);}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="nav_rc">
+    <div class="panel-heading">
+        活动详细设置
+    </div>
+    <div class="panel-body">        
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">参与活动城市限制</label>
+            <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="city" class="form-control" placeholder="" name="city" value="{$reply['perssion_city']}">
+					<div class="help-block">使用英文逗号（,）相隔</div>
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">抽奖机会花费金币</label>
+            <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="per_nums_value" class="form-control" placeholder="" name="per_nums_value" value="{$reply['per_nums_value']}">
+					<div class="help-block">购买一次抽奖机会需花费金币</div>
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">指定抽奖奖品</label>
+            <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="setPrizeName" class="form-control" placeholder="" name="setPrizeName" value="{$reply['setPrizeName']}">
+					<div class="help-block">指定用户当天抽奖第二次以后的中奖奖品（在以上框中输入奖品名字）格式:  1,电脑;2,手机</div>
+            </div>
+        </div>
+		<div class="form-group">
+ 			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 参与用户类型</label>
+            <div class="col-sm-9 col-xs-6">
+               	<div class="input-group">
+					<label for="issubscribe0" class="radio-inline"><input type="radio" name="issubscribe" value="0" id="issubscribe0" {if $reply['isSubscribe'] == 0}checked="true"{/if}/> 任意粉丝</label>&nbsp;&nbsp;&nbsp;
+					<label for="issubscribe1" class="radio-inline"><input type="radio" name="issubscribe" value="1" id="issubscribe1" {if $reply['isSubscribe'] == 1}checked="true"{/if}/> 关注粉丝</label>
+				</div>
+            </div>
+        </div>
+		<div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">未关注提示文字</label>
+            <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="subscribe_tips" class="form-control" placeholder="" name="subscribe_tips" value="{$reply['subscribe_tips']}">
+					<div class="help-block">指定用户当天抽奖第二次以后的中奖奖品（在以上框中输入奖品名字）格式:  1,电脑;2,手机</div>
+            </div>
+        </div>
+		<div class="form-group">
+ 			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 一个用户一个红包</label>
+            <div class="col-sm-9 col-xs-6">
+               	<div class="input-group">
+					<label for="issubscribe0" class="radio-inline"><input type="radio" name="set_win_one_cash" value="1" id="set_win_one_cash" {if $reply['set_win_one_cash'] == 1}checked="true"{/if}/> 开启</label>&nbsp;&nbsp;&nbsp;
+					<label for="issubscribe1" class="radio-inline"><input type="radio" name="set_win_one_cash" value="0" id="set_win_one_cash" {if $reply['set_win_one_cash'] == 0}checked="true"{/if}/> 关闭</label>
+				</div>
+            </div>
+        </div>
+		 <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">男领奖二维码</label>
+                <div class="col-sm-9 col-xs-12">
+                   	{php echo tpl_form_field_image('male_qrcode',$reply['male_qrcode']);}
+                </div>
+         </div>
+		 <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">女领奖二维码</label>
+                <div class="col-sm-9 col-xs-12">
+                   	{php echo tpl_form_field_image('female_qrcode',$reply['female_qrcode']);}
+                </div>
+         </div>
+		 <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">提示图片</label>
+                <div class="col-sm-9 col-xs-12">
+                   	{php echo tpl_form_field_image('tip_img',$reply['tip_img']);}
+                </div>
+         </div>
+	
+		<div class="panel panel-default" id="nav_rd">
+			<div class="panel-heading">
+				参与次数设置
+			</div>
+			<div class="panel-body">
+	
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 每人每天最多参与次数</label>
+					<div class="col-sm-9 col-xs-6">
+						<div class="input-group">
+							<input type="text" class="form-control" name="peruserday_num_times" value="{$reply['peruserday_num_times']}" />
+							<span class="input-group-addon">个</span>
+						</div>
+						<div class="help-block">必须小于总次数！ 0 为不限制 可以参与天数 = 总次数/每天次数!</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 超过每天次数提示</label>
+					<div class="col-sm-9 col-xs-6">
+						<input type="text" class="form-control" name="peruserday_num_times_tips" value="{$reply['peruserday_num_times_tips']}" />
+					</div>
+				</div>
+				<!--		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 温馨提示</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea style="height:80px;" id='sweet_tips' name="sweet_tips" class="form-control" cols="60">{$reply['sweet_tips']}</textarea>
+					</div>
+				</div>-->
+			</div>
+		</div>
+
+		<div class="panel panel-default" id="nav_rf">
+			<div class="panel-heading">
+				奖品信息
+			</div>
+			<div class="panel-body">
+				{if $prize}
+					{loop $prize $index $item}
+					
+					<div>
+					<input type="hidden" name="prize_id[{php echo $index+1;}]" value="{$item['prize_id']}" />
+					<div class="form-group">
+					  <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 奖品类型</label>
+						<div class="col-sm-9">
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="0"{if $item['prize_type']=='0'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('真实');"/>真实物品
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="1"{if $item['prize_type']=='1'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>固定金币
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="2"{if $item['prize_type']=='2'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>随机金币
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="3"{if $item['prize_type']=='3'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>固定红包
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="4"{if $item['prize_type']=='4'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>随机红包
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="5"{if $item['prize_type']=='5'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('再来一次');"/>再来一次
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[{php echo $index+1;}]" value="6"{if $item['prize_type']=='6'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('空奖');"/>空奖
+							</label>
+							<span style="float:right;"><a class="btn btn-danger" href="{php echo $this->createWebUrl('deletePrize',array('prizeId'=>$item['prize_id']))}">删除此奖品</a></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">真实</span>价值</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="prize_value[{php echo $index+1;}]" placeholder="请填写奖品价值" value="{$item['prize_value']}">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">所处</span>位置</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="location[{php echo $index+1;}]" placeholder="所处位置1-8" value="{$item['location']}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">书签</span>名称</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="label_name[{php echo $index+1;}]" placeholder="书签名称" value="{$item['label_name']}">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">签</span>文</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="desc[{php echo $index+1;}]" placeholder="签文" value="{$item['desc']}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">解</span>签</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="sign_decrypt[{php echo $index+1;}]" placeholder="解签" value="{$item['sign_decrypt']}">
+						</div>
+					</div>							
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品等级</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="prize_level[{php echo $index+1;}]" placeholder="如：一等奖，二等奖" value="{$item['prize_level']}">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品数量</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control" type="text" name="prize_total[{php echo $index+1;}]" value="{$item['prize_total']}">
+								<span class="input-group-addon">份</span>
+							</div>
+						</div>							
+					</div>						
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品名称</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text"  name="prize_name[{php echo $index+1;}]" placeholder="请填写奖品名称" value="{$item['prize_name']}">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 中奖概率</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control" type="text" name="possibility[{php echo $index+1;}]" value="{$item['possibility']}">
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label">最小</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">每人最小</span>
+								<input class="form-control" type="text" value="{$item['prize_min_value']}" name="prize_min_value[{php echo $index+1;}]">
+								<span class="input-group-addon"></span>
+							</div>
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label">最大</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<span class="input-group-addon">每天最大</span>
+								<input class="form-control" type="text" value="{$item['prize_max_value']}" name="prize_max_value[{php echo $index+1;}]">
+								<span class="input-group-addon"></span>
+							</div>
+						</div>
+					</div>            
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品图片</label>
+						<div class="col-sm-9">
+							{php echo tpl_form_field_image("prize_img[".$item['prize_id']."]",$item['prize_img']);}
+							<div class="help-block">奖品显示图片 图片大小418px X 418px</div>
+						</div>
+					</div>
+					<hr/>
+				</div>
+					{/loop}		
+				{/if}
+				<div id="jiangpin" style="display: none">
+					<div class="form-group">
+					  <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 奖品类型</label>
+						<div class="col-sm-9">
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="0"{if $item['prizetype']=='0'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('真实');"/>真实物品
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="1"{if $item['prizetype']=='1'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>固定金币
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="2"{if $item['prizetype']=='2'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>随机金币
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="3"{if $item['prizetype']=='3'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>固定红包
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="4"{if $item['prizetype']=='4'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>随机红包
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="5"{if $item['prizetype']=='5'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('再来一次');"/>再来一次
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[change_id]" value="6"{if $item['prizetype']=='6'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('空奖');"/>空奖
+							</label>	
+							<span style="float:right;"><a class="btn btn-danger" href="{php echo $this->createWebUrl('deletePrize',array('prizeId'=>$item['prize_id']))}">删除此奖品</a></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">真实</span>价值</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="real_value[change_id]" placeholder="请填写奖品价值">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">所处</span>位置</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="location[change_id]" placeholder="所处位置1-8">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">书签</span>名称</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="label_name[change_id]" placeholder="书签名称">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">签</span>文</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="desc[change_id]" placeholder="签文">
+						</div>
+					</div>		
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">解</span>签</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="sign_decrypt[change_id]" placeholder="解签">
+						</div>
+					</div>						
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品等级</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="prize_level[change_id]" placeholder="如：一等奖，二等奖">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品数量</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control" type="text" name="prize_total[change_id]" value="100">
+								<span class="input-group-addon">份</span>
+							</div>
+						</div>							
+					</div>						
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品名称</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text"  name="prize_name[change_id]" placeholder="请填写奖品名称">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 中奖概率</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control" type="text" name="possibility[change_id]" value="50">
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label">最小</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">每人最小</span>
+								<input class="form-control" type="text" value="" name="prize_min_value[change_id]">
+								<span class="input-group-addon"></span>
+							</div>
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label">最大</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<span class="input-group-addon">每天最大</span>
+								<input class="form-control" type="text" value="" name="prize_max_value[change_id]">
+								<span class="input-group-addon"></span>
+							</div>
+						</div>
+					</div>            
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品图片</label>
+						<div class="col-sm-9">
+							{php echo tpl_form_field_image('prize_img[change_id]','');}
+							<div class="help-block">奖品显示图片 图片大小418px X 418px</div>
+						</div>
+					</div>
+				</div>
+				{if empty($prize)}
+				<div>
+					<div class="form-group">
+					  <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 奖品类型</label>
+						<div class="col-sm-9">
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="0"{if $item['prizetype']=='0'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('真实');"/>真实物品
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="1"{if $item['prizetype']=='1'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>固定金币
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="2"{if $item['prizetype']=='2'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>随机金币
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="3"{if $item['prizetype']=='3'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>固定红包
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="4"{if $item['prizetype']=='4'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('虚拟');"/>随机红包
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="5"{if $item['prizetype']=='5'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('再来一次');"/>再来一次
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="prize_type[1]" value="6"{if $item['prizetype']=='6'} checked="checked"{/if} onclick="$('#p_name_{$item['id']}').html('空奖');"/>空奖
+							</label>
+							<span style="float:right;"><a class="btn btn-danger" href="{php echo $this->createWebUrl('deletePrize',array('prizeId'=>$item['prize_id']))}">删除此奖品</a></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">真实</span>价值</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="real_value[1]" placeholder="请填写奖品价值">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">所处</span>位置</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="location[1]" placeholder="所处位置1-8">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">书签</span>名称</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="label_name[1]" placeholder="书签名称">
+						</div>
+					</div>	
+					
+					
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">签</span>文</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="desc[1]" placeholder="签文">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span><span id="p_name_new">解</span>签</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="sign_decrypt[1]" placeholder="解签">
+						</div>
+					</div>		
+					
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品等级</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="prize_level[1]" placeholder="如：一等奖，二等奖">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品数量</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control" type="text" name="prize_total[1]" value="100">
+								<span class="input-group-addon">份</span>
+							</div>
+						</div>							
+					</div>						
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 奖品名称</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text"  name="prize_name[1]" placeholder="请填写奖品名称">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label"><span style='color:red'>*</span> 中奖概率</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<input class="form-control" type="text" name="possibility[1]" value="50">
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label">最小</label>
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">每人最小</span>
+								<input class="form-control" type="text" value="" name="prize_min_value[1]">
+								<span class="input-group-addon"></span>
+							</div>
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 control-label">最大</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<span class="input-group-addon">每天最大</span>
+								<input class="form-control" type="text" value="" name="prize_max_value[1]">
+								<span class="input-group-addon"></span>
+							</div>
+						</div>
+					</div>            
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品图片</label>
+						<div class="col-sm-9">
+							{php echo tpl_form_field_image('prize_img[1]','');}
+							<div class="help-block">奖品显示图片 图片大小418px X 418px</div>
+						</div>
+					</div>
+					<hr/>
+				</div>
+				{/if}
+				<span id="award_insert_flag" style="display: none"></span>
+				<div class="form-group">
+					<div class="col-sm-5"></div>
+					<div class="col-sm-7">
+						<button id="btn_add_award" type="button" class="btn btn-warning">
+							<span class="glyphicon glyphicon-plus"></span> 添加奖品
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+<div class="panel panel-default" id="nav_rh">
+    <div class="panel-heading">
+     分享设置
+    </div>
+    <div class="panel-body table-responsive">
+		
+        <div class="tab-content">
+		
+		
+            <div role="tabpanel" class="tab-pane{if $shares['acid']==$one} active{/if}" id="acid{$shares['acid']}">
+		    
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享权限</label>
+                <div class="col-sm-9 col-xs-12">
+                   <div class="input-group">
+					   <label for="share_open_close" class="radio-inline">
+							<input type="radio" name="share_open_close" value="0" {if $reply['share_open_close'] == 0}checked="true"{/if} onclick="$('#share_open_close).hide();"/> 关闭分享赠送金币
+					   </label>&nbsp;&nbsp;&nbsp;
+					   <label for="share_open_close" class="radio-inline">
+							<input type="radio" name="share_open_close" value="1" {if $reply['share_open_close'] == 1}checked="true"{/if} onclick="$('#share_open_close}').show();"/> 开启分享赠送金币
+					   </label>
+				    </div>
+                </div>
+            </div>
+			<div id="share_open_close}"style="display: block;">
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 分享标题</label>
+                <div class="col-sm-9 col-xs-12">
+               	    <input type="text" id="share_title" class="form-control" name="share_title" value="{$reply['share_title']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 分享描述</label>
+                <div class="col-sm-9 col-xs-12">
+     	            <textarea style="height:60px;" id="share_desc" name="share_desc" class="form-control" cols="60">{$reply['share_content']}</textarea>
+                </div>
+            </div>
+	
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享朋友或朋友圈图</label>
+                <div class="col-sm-9 col-xs-12">
+               	    {php echo tpl_form_field_image('share_img',$reply['share_icon']);}
+					<div class="help-block">留空则显示活动图片 图片大小建议150 * 150</div>
+                </div>
+            </div>
+		
+		    <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享赠送金币</label>
+                <div class="col-sm-9 col-xs-6">
+               	    <div class="input-group">
+					    <input type="text" class="form-control" name="give_num" value="{$reply['share_give_num']}" />
+					    <span class="input-group-addon">数量</span>
+				    </div>
+				
+                </div>
+            </div>	
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">每天分享朋友圈次数</label>
+                <div class="col-sm-9 col-xs-6">
+               	    <div class="input-group">
+					    <input type="text" class="form-control" name="share_per_day_time_line_num" value="{$reply['share_per_day_time_line_num']}" />
+					    <span class="input-group-addon">次数</span>
+				    </div>
+				
+                </div>
+            </div>	
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">每天分享朋友次数</label>
+                <div class="col-sm-9 col-xs-6">
+               	    <div class="input-group">
+					    <input type="text" class="form-control" name="share_per_day_app_num" value="{$reply['share_per_day_app_num']}" />
+					    <span class="input-group-addon">次数</span>
+				    </div>
+			
+                </div>
+            </div>				
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享成功提示</label>
+                <div class="col-sm-9 col-xs-6">
+					<input type="text" class="form-control" name="share_scs_tips" value="{$reply['share_scs_tips']}" />
+                </div>
+            </div>
+		
+			</div>
+			</div>
+		
+		</div>
+	</div>	
+</div>
+<div id="nav_r1"></div>
+<script type="text/javascript">
+
+	var k=1;
+	{loop $prize $item}
+		k++;
+	{/loop}
+	
+	$('#btn_add_award').bind('click', function(){
+		k = k + 1;
+		if( k >= 9){
+			return;
+		}
+		var content = '<div>';
+		content += $("#jiangpin").html();
+		
+		content += '<div class="form-group">';
+		content += '<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>';
+		content += '<div class="col-sm-9">';
+		content += '<button type="button" class="btn btn-danger btn_del_award">删除</button>';
+		content += '</div>';
+		content += '</div>';
+		content += '<hr/>';
+		content += '</div>';
+		var reg=new RegExp('change_id','g'); //创建正则RegExp对象
+		contents = content.replace(reg,k);
+		
+		$('#award_insert_flag').before(contents);
+		$('.btn_del_award').bind('click', function(){
+			var obj = $(this).parent().parent().parent();
+			obj.slideUp(300, function() {
+				obj.remove();
+				k--;
+			});
+		});
+	});
+
+</script>

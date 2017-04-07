@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>活动规则</title>
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<link href="{$_W['siteroot']}addons/{$_W['current_module']['name']}/css/prize.css" rel="stylesheet">	
+<script src="{$_W['siteroot']}addons/{$_W['current_module']['name']}/js/common.js" type="text/javascript" type="text/javascript"></script>
+<style>
+header{ width:100%; height:auto; overflow:hidden;}
+header img{ display:block; width:100%;}
+.title{width:100%; height:auto; overflow:hidden; position:relative;}
+.title img{ display:block; width:100%;}
+.title span{ position:absolute; left:0; top:0rem; width:100%; line-height:3rem; display:inline-block; text-align:center; font-size:1.2rem;}
+footer0{ width:100%; height:2rem; background:url({$_W['siteroot']}addons/{$_W['current_module']['name']}/images/bottombg.jpg) center no-repeat;-o-background-size:100% 100%; -ms-background-size:100% 100%; -moz-background-size:100% 100%; -webkit-background-size:100% 100%; background-size:100% 100%;}
+footer img{width:100%; margin-top:-1rem;}
+center{ width:100%; padding:0% 7% 0rem 9%; margin-top:-2px;color:#444; box-sizing: border-box; background:url({$_W['siteroot']}addons/{$_W['current_module']['name']}/images/cenbg.png) center repeat-y; background-size: 100%;}
+center h3{ line-height:2rem; text-align:center; margin-top:-1rem; font-size:1.4rem; padding-bottom:1rem;}
+p{ line-height:1.4rem;  font-size:0.8rem; text-align:left; padding-bottom:0.5em;}
+p span{ font-size:1rem;}
+p img{ width:70%; height:auto;display:block; padding-top:1rem; padding-left:15%;padding-bottom: 1rem;}
+em{ font-style:normal; color:#f00;}
+strong{ font-size:1rem;}
+.erweima{ width:100%; overflow:hidden; text-align:center;}
+.erweima img{ max-width:60%; height:auto;}
+</style>
+</head>
+<body>
+ <header><img src="{$_W['siteroot']}addons/{$_W['current_module']['name']}//images/fu.jpg" /></header>
+ <!--<div class="title"><img src="{$_W['siteroot']}addons/{$_W['current_module']['name']}//images/titlebg.jpg" /><span>活动规则</span></div>-->
+ <center>
+  <h3>活动规则</h3>
+  {php echo html_entity_decode($jgg['rule'])}
+ <div class="erweima"><img src="{$_W['attachurl']}{if $userInfo['sex']==1}{$jgg['male_qrcode']}{else}{$jgg['female_qrcode']}{/if}" width="100%" alt="images/4/2017/02/F6ZBThHOsXHTxWwH0sf0zHI04Wowom.jpg"></div>
+
+ </center>
+ <footer><img src="{if empty($jgg['bottombgxin'])}{$_W['siteroot']}addons/{$_W['current_module']['name']}/images/bottombgxin.jpg{else}{php echo $this->getpicurl($jgg['bottombgxin'])}{/if}" class="btimg"/></footer>
+ <a href="{php echo $this->createMobileUrl('entrance',array('jid'=>$jid,'openid'=>$_W['openid']));}" CLASS="back">返回<br />抽签</a> 
+ 
+ 
+</body>
+</html>

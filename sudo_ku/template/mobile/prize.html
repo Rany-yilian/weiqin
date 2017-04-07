@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的奖品</title>
+	
+	<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	
+	<link href="{$_W['siteroot']}addons/{$_GPC['m']}/css/prize.css" rel="stylesheet">
+	<script src="{$_W['siteroot']}addons/{$_W['current_module']['name']}/js/jquery-3.0.0.min.js" type="text/javascript"></script>
+</head>
+<body>
+ <div class="prizelist">
+	<nav class="nav">
+		<img src="{$_W['siteroot']}/addons/{$_GPC['m']}/images/fu.jpg"/>
+	</nav>
+    <div class="prize">
+	  <h3>我的奖品</h3>
+	  <ul>
+	    <li><em>抽中奖品:</em><p><span>奖品为 {if $award[0]['prize_value']>0}{$award[0]['award_name']}{$award[0]['prize_value']}元{else}{$award[0]['award_name']}{/if}</span><span>数量：不限，抽中即得</span></p></li>
+	  </ul>
+	  <img src="{if empty($jgg['bottombgxin'])}{$_W['siteroot']}addons/{$_W['current_module']['name']}/images/bottombgxin.jpg{else}{php echo $this->getpicurl($jgg['bottombgxin'])}{/if}" class="btimg"/>
+    </div>
+ </div>
+ <!--<div>
+	<nav>
+		<ul class="menu">
+			<li>
+				<h3>得奖金币</h3>
+				<p>{$res_coin['coin']}</p>
+			</li>
+			<li>
+				<h3>中奖</h3>
+				<p>{$res_award_count}</p>
+			</li>
+		</ul>
+	</nav>
+ </div>
+ {if $res_award_count>0}
+ <div class="record">
+	<section>
+		<h3>我的中奖纪录<h3/>
+		<article>
+			<ul id="ulUnjx">
+			</ul>
+		</article>
+	</section>
+ </div>
+ {/if}
+ {if $res_award_count==0}
+ <div class="record">
+	<section>
+		<h1>暂无中奖纪录</h1>
+	</section>
+ </div>
+ {/if}-->
+ 
+ <div class="ewmboxbg" id="ewmboxbg"  style="display:none;">
+  <div class="promptbox">
+   <p><img src="{$_W['attachurl']}{if $res_user['sex']==1}{$res_jgg['male_qrcode']}{else}{$res_jgg['female_qrcode']}{/if}" /></p>
+   <span>长按识别二维码<br />联系客服领取奖品</span>
+  </div>
+  <a href="javascript:;" class="closedown"></a>
+ </div>
+ <a href="{php echo $this->createMobileUrl('entrance',array('jid'=>$jid,'openid'=>$_W['openid']));}" CLASS="back">返回<br />抽签</a> 
+ 
+<input id='end' type='hidden' value='{$end}'>
+<input id='page' type='hidden' value='1'>
+<input id='query' type='hidden' value='0'>
+<input id='jid' type='hidden' value="{$jid}">
+<input id='openid' type='hidden' value="{$_W['openid']}">
+
+ <script type="text/javascript">
+ (function () { 
+	var $panel = $('#ewmboxbg'); 
+	
+	
+	$('.ewmboxbg .closedown').on('click', function () { 
+		$panel.hide(); 
+	});
+	//DataRequest();
+	/**
+	 *给动态生成的li进行绑定点击事件
+	 *
+	 */
+	$("#ulUnjx").on("click",".onclickdown", function() {
+		$panel.show(); 
+	});
+
+	$(window).scroll(function(){
+			
+		var is_ctnue =$("#query").val();
+		var viewH =$(window).height();//可见高度
+		var contentH =$(document).height();//内容高度
+		var scrollTop =$(window).scrollTop();//滚动高度
+		
+		if(parseInt($("#page").val())>parseInt($("#end").val())){
+			
+			return;
+		}
+		
+		if(contentH - viewH - scrollTop <= 0 && is_ctnue == 0) { 
+			DataRequest();
+		}
+	});		
+		
+	function  DataRequest(){
+	
+		var jid = $("#jid").val();
+		var openid = $("#openid").val();			
+		var page = $("#page").val();	
+		
+		$.ajax({	
+			type: "post",
+			url: "{php echo $this->createMobileUrl('PrizeRefresh')}",
+			data: {
+				jid : jid,
+				openid : openid,
+				page : page
+			},
+			dataType : "json",			
+			success: function(res){
+				
+				var hml='';
+				for(var i=0;i<res.length;i++){
+					if(res[i]['prize_type']==2){
+						res[i]['award_name'] = res[i]['award_name']+parseInt(res[i]['prize_value']);
+					}
+					if( res[i]['prize_type']==4){
+						res[i]['award_name'] = res[i]['award_name']+res[i]['prize_value']+'元';
+					}
+					hml +='<li><label>'+getLocalTime(res[i]['createtime'])+'</label><label class="onclickdown" style="color:#128ee5; text-decoration:none;">'+res[i]['award_name']+'</label></li>';
+				}
+	
+				$("#ulUnjx").append(hml);
+				
+				var pa = parseInt(page)+1;
+				$("#page").val(pa);
+				if(res.length<8){
+					$("#query").val(1);
+				}else{
+					$("#query").val(0);
+				}		
+			},
+			error: function(){
+					alert('数据查询出错！');
+			}    
+		});
+	}
+	function getLocalTime(time) { 
+		var time = new Date(time*1000);
+		var y  = judge(time.getFullYear());
+		var m = judge(time.getMonth()+1);
+		var d  = judge(time.getDate());
+		var h  = judge(time.getHours());
+		var i   = judge(time.getMinutes());
+		var s  = judge(time.getSeconds());
+		return y+'-'+m+'-'+d+' '+h+':'+i+':'+s;
+	} 
+	function judge(time){
+		if(parseInt(time)<10){
+			return '0'+time;
+		}
+		return time;
+	}
+ }
+ )(); 
+ </script> 
+ 
+</body>
+</html>
